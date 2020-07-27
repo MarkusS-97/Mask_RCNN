@@ -43,8 +43,7 @@ def test_training(tmpdir, model_data):
     # Load trained weights
     model.load_weights(model_path, by_name=True)
     original_image, image_meta, gt_class_id, gt_bbox, gt_mask = \
-        modellib.load_image_gt(dataset_val, config,
-                               0, use_mini_mask=False)
+        modellib.load_image_gt(dataset_val, config, 0)
 
     results = model.detect([original_image], verbose=0)
     r = results[0]
@@ -81,7 +80,7 @@ def test_data_sequence():
     dataset = FixShapesDataset()
     dataset.load_shapes(1, config.IMAGE_SHAPE[0], config.IMAGE_SHAPE[1])
     dataset.prepare()
-    dg = modellib.data_generator(dataset, config)
+    dg = modellib.DataGenerator(dataset, config)
     inputs, output = next(dg)
 
     assert output == []
